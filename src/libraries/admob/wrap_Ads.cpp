@@ -123,6 +123,14 @@ namespace admob
 			return 1;
 		}
 
+		int w_getAppVersionName(lua_State *L)
+		{
+			__android_log_print(ANDROID_LOG_VERBOSE, "ADMOBLOG", "w_getAppVersionName");
+			std::string ret = instance()->getAppVersionName();
+			love::luax_pushstring(L, ret);
+			return 1;
+		}
+
 		//Private functions for callbacks
 		int w_coreInterstitialError(lua_State *L)
 		{
@@ -187,6 +195,7 @@ namespace admob
 			{"isRewardedAdLoaded", w_isRewardedAdLoaded},
 			{"changeEUConsent", w_changeEUConsent},
 			{"getDeviceLanguage", w_getDeviceLanguage},
+			{"getAppVersionName", w_getAppVersionName},
 
 			//Private functions for callbacks
 			{"coreInterstitialError", w_coreInterstitialError},

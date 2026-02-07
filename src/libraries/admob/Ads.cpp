@@ -261,6 +261,25 @@ namespace admob
 			return (std::string) strPtr;
 		}
 
+		std::string Ads::getAppVersionName()
+		{
+			__android_log_print(ANDROID_LOG_VERBOSE, "ADMOBLOG", "getAppVersionName");
+			JNIEnv *env = (JNIEnv*) SDL_AndroidGetJNIEnv();
+
+			jobject activity = (jobject) SDL_AndroidGetActivity();
+
+			jclass clazz(env->GetObjectClass(activity));
+			jmethodID method_id = env->GetMethodID(clazz, "getAppVersionName",  "()Ljava/lang/String;");
+
+			jstring versionName = (jstring) env->CallObjectMethod(activity, method_id);
+
+			const char *strPtr = env->GetStringUTFChars(versionName, 0);
+			env->DeleteLocalRef(activity);
+			env->DeleteLocalRef(clazz);
+
+			return (std::string) strPtr;
+		}
+
 		//For callbacks
 
 		bool Ads::coreInterstitialError()

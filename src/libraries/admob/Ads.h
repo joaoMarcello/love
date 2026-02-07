@@ -56,6 +56,7 @@ namespace admob
 				void requestRewardedAd(const char *adID);
 				void showRewardedAd();
 				std::string getDeviceLanguage();
+				std::string getAppVersionName();
 
 				//Private functions for callbacks
 				bool coreInterstitialError();
