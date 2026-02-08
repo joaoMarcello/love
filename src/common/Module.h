@@ -60,6 +60,9 @@ public:
 #ifdef EXT_ADMOB
 		M_ADMOB,
 #endif
+#ifdef EXT_PLAYGAMES
+		M_PLAYGAMES,
+#endif
 		M_MAX_ENUM
 	};
 
