@@ -57,8 +57,7 @@ namespace playgames
 				void showAllLeaderboards();
 				std::string getPlayerName();
 				std::string getPlayerId();
-				std::string getLeaderboardNormalId();
-				std::string getLeaderboardHardId();
+
 		};
 	}
 }

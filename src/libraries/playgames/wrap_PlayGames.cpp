@@ -101,20 +101,6 @@ namespace playgames
 			return 1;
 		}
 
-		int w_getLeaderboardNormalId(lua_State *L)
-		{
-			std::string ret = instance()->getLeaderboardNormalId();
-			love::luax_pushstring(L, ret);
-			return 1;
-		}
-
-		int w_getLeaderboardHardId(lua_State *L)
-		{
-			std::string ret = instance()->getLeaderboardHardId();
-			love::luax_pushstring(L, ret);
-			return 1;
-		}
-
 		// List of functions to wrap.
 		static const luaL_Reg functions[] =
 		{
@@ -127,8 +113,7 @@ namespace playgames
 			{ "showAllLeaderboards", w_showAllLeaderboards },
 			{ "getPlayerName", w_getPlayerName },
 			{ "getPlayerId", w_getPlayerId },
-			{ "getLeaderboardNormalId", w_getLeaderboardNormalId },
-			{ "getLeaderboardHardId", w_getLeaderboardHardId },
+
 			{ 0, 0 }
 		};
 

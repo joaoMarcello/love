@@ -198,53 +198,5 @@ namespace playgames
 			
 			return result;
 		}
-
-		std::string PlayGames::getLeaderboardNormalId()
-		{
-			JNIEnv *env = (JNIEnv*) SDL_AndroidGetJNIEnv();
-			jobject activity = (jobject) SDL_AndroidGetActivity();
-			jclass clazz (env->GetObjectClass(activity));
-
-			jmethodID method_id = env->GetMethodID(clazz, "playGamesGetLeaderboardNormalId", "()Ljava/lang/String;");
-			jstring jstr = (jstring) env->CallObjectMethod(activity, method_id);
-
-			std::string result = "";
-			if (jstr != nullptr)
-			{
-				const char *nativeString = env->GetStringUTFChars(jstr, 0);
-				result = std::string(nativeString);
-				env->ReleaseStringUTFChars(jstr, nativeString);
-				env->DeleteLocalRef(jstr);
-			}
-
-			env->DeleteLocalRef(activity);
-			env->DeleteLocalRef(clazz);
-			
-			return result;
-		}
-
-		std::string PlayGames::getLeaderboardHardId()
-		{
-			JNIEnv *env = (JNIEnv*) SDL_AndroidGetJNIEnv();
-			jobject activity = (jobject) SDL_AndroidGetActivity();
-			jclass clazz (env->GetObjectClass(activity));
-
-			jmethodID method_id = env->GetMethodID(clazz, "playGamesGetLeaderboardHardId", "()Ljava/lang/String;");
-			jstring jstr = (jstring) env->CallObjectMethod(activity, method_id);
-
-			std::string result = "";
-			if (jstr != nullptr)
-			{
-				const char *nativeString = env->GetStringUTFChars(jstr, 0);
-				result = std::string(nativeString);
-				env->ReleaseStringUTFChars(jstr, nativeString);
-				env->DeleteLocalRef(jstr);
-			}
-
-			env->DeleteLocalRef(activity);
-			env->DeleteLocalRef(clazz);
-			
-			return result;
-		}
 	}
 }
