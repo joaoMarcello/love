@@ -107,6 +107,17 @@ ifeq ($(EXT_ADMOB),yes)
   LOCAL_CFLAGS += -DEXT_ADMOB
 endif
 
+$(info $$EXT_PLAYGAMES is [${EXT_PLAYGAMES}])
+ifeq ($(EXT_PLAYGAMES),yes)
+  LOCAL_SRC_FILES += \
+    $(filter-out \
+    ,$(subst $(LOCAL_PATH)/,,\
+    $(wildcard ${LOCAL_PATH}/src/libraries/playgames/*.cpp) \
+    $(wildcard ${LOCAL_PATH}/src/libraries/playgames/sdl/*.cpp) \
+    ))
+  LOCAL_CFLAGS += -DEXT_PLAYGAMES
+endif
+
 LOCAL_CXXFLAGS := -std=c++11
 LOCAL_SHARED_LIBRARIES := libopenal libmpg123
 LOCAL_STATIC_LIBRARIES := libvorbis libogg libtheora libmodplug libfreetype libluajit SDL2_static
