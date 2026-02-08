@@ -254,34 +254,57 @@ namespace admob
 
 			jstring countryCode = (jstring) env->CallObjectMethod(activity, method_id);
 
-		std::string result = "";
-		if (countryCode != nullptr)
-		{
-			const char *nativeString = env->GetStringUTFChars(countryCode, 0);
-			result = std::string(nativeString);
-			env->ReleaseStringUTFChars(countryCode, nativeString); // ✅ Libera memória!
-			env->DeleteLocalRef(countryCode);
+			std::string result = "";
+			if (countryCode != nullptr)
+			{
+				const char *nativeString = env->GetStringUTFChars(countryCode, 0);
+				result = std::string(nativeString);
+				env->ReleaseStringUTFChars(countryCode, nativeString);
+				env->DeleteLocalRef(countryCode);
+			}
+
+			env->DeleteLocalRef(activity);
+			env->DeleteLocalRef(clazz);
+
+			return result;
 		}
 
-		env->DeleteLocalRef(activity);
-		env->DeleteLocalRef(clazz);
+		std::string Ads::getAppVersionName()
+		{
+			JNIEnv *env = (JNIEnv*) SDL_AndroidGetJNIEnv();
 
-		return result;
+			jobject activity = (jobject) SDL_AndroidGetActivity();
+
+			jclass clazz(env->GetObjectClass(activity));
+			jmethodID method_id = env->GetMethodID(clazz, "getAppVersionName", "()Ljava/lang/String;");
+
 			jstring versionName = (jstring) env->CallObjectMethod(activity, method_id);
 
-		std::string result = "";
-		if (versionName != nullptr)
-		{
-			const char *nativeString = env->GetStringUTFChars(versionName, 0);
-			result = std::string(nativeString);
-			env->ReleaseStringUTFChars(versionName, nativeString); // ✅ Libera memória!
-			env->DeleteLocalRef(versionName);
+			std::string result = "";
+			if (versionName != nullptr)
+			{
+				const char *nativeString = env->GetStringUTFChars(versionName, 0);
+				result = std::string(nativeString);
+				env->ReleaseStringUTFChars(versionName, nativeString);
+				env->DeleteLocalRef(versionName);
+			}
+
+			env->DeleteLocalRef(activity);
+			env->DeleteLocalRef(clazz);
+
+			return result;
 		}
 
-		env->DeleteLocalRef(activity);
-		env->DeleteLocalRef(clazz);
+		//For callbacks
 
-		return result;
+		bool Ads::coreInterstitialError()
+		{
+			JNIEnv *env = (JNIEnv*) SDL_AndroidGetJNIEnv();
+
+			jobject activity = (jobject) SDL_AndroidGetActivity();
+
+			jclass clazz(env->GetObjectClass(activity));
+			jmethodID method_id = env->GetMethodID(clazz, "coreInterstitialError", "()Z");
 
 			jboolean adHasFailedToLoad = env->CallBooleanMethod(activity, method_id);
 
@@ -370,19 +393,30 @@ namespace admob
 
 			jstring rewardType = (jstring) env->CallObjectMethod(activity, method_id);
 
-		std::string result = "";
-		if (rewardType != nullptr)
-		{
-			const char *nativeString = env->GetStringUTFChars(rewardType, 0);
-			result = std::string(nativeString);
-			env->ReleaseStringUTFChars(rewardType, nativeString); // ✅ Libera memória!
-			env->DeleteLocalRef(rewardType);
+			std::string result = "";
+			if (rewardType != nullptr)
+			{
+				const char *nativeString = env->GetStringUTFChars(rewardType, 0);
+				result = std::string(nativeString);
+				env->ReleaseStringUTFChars(rewardType, nativeString);
+				env->DeleteLocalRef(rewardType);
+			}
+
+			env->DeleteLocalRef(activity);
+			env->DeleteLocalRef(clazz);
+
+			return result;
 		}
 
-		env->DeleteLocalRef(activity);
-		env->DeleteLocalRef(clazz);
+		double Ads::coreGetRewardQuantity()
+		{
+			JNIEnv *env = (JNIEnv*) SDL_AndroidGetJNIEnv();
 
-		return result;
+			jobject activity = (jobject) SDL_AndroidGetActivity();
+
+			jclass clazz(env->GetObjectClass(activity));
+			jmethodID method_id = env->GetMethodID(clazz, "coreGetRewardQuantity",  "()D");
+
 			jdouble rewardQty = (jdouble) env->CallDoubleMethod(activity, method_id);
 
 			env->DeleteLocalRef(activity);
