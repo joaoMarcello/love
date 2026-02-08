@@ -254,42 +254,34 @@ namespace admob
 
 			jstring countryCode = (jstring) env->CallObjectMethod(activity, method_id);
 
-			const char *strPtr = env->GetStringUTFChars(countryCode, 0);
-			env->DeleteLocalRef(activity);
-			env->DeleteLocalRef(clazz);
-
-			return (std::string) strPtr;
+		std::string result = "";
+		if (countryCode != nullptr)
+		{
+			const char *nativeString = env->GetStringUTFChars(countryCode, 0);
+			result = std::string(nativeString);
+			env->ReleaseStringUTFChars(countryCode, nativeString); // ✅ Libera memória!
+			env->DeleteLocalRef(countryCode);
 		}
 
-		std::string Ads::getAppVersionName()
-		{
-			__android_log_print(ANDROID_LOG_VERBOSE, "ADMOBLOG", "getAppVersionName");
-			JNIEnv *env = (JNIEnv*) SDL_AndroidGetJNIEnv();
+		env->DeleteLocalRef(activity);
+		env->DeleteLocalRef(clazz);
 
-			jobject activity = (jobject) SDL_AndroidGetActivity();
-
-			jclass clazz(env->GetObjectClass(activity));
-			jmethodID method_id = env->GetMethodID(clazz, "getAppVersionName",  "()Ljava/lang/String;");
-
+		return result;
 			jstring versionName = (jstring) env->CallObjectMethod(activity, method_id);
 
-			const char *strPtr = env->GetStringUTFChars(versionName, 0);
-			env->DeleteLocalRef(activity);
-			env->DeleteLocalRef(clazz);
-
-			return (std::string) strPtr;
+		std::string result = "";
+		if (versionName != nullptr)
+		{
+			const char *nativeString = env->GetStringUTFChars(versionName, 0);
+			result = std::string(nativeString);
+			env->ReleaseStringUTFChars(versionName, nativeString); // ✅ Libera memória!
+			env->DeleteLocalRef(versionName);
 		}
 
-		//For callbacks
+		env->DeleteLocalRef(activity);
+		env->DeleteLocalRef(clazz);
 
-		bool Ads::coreInterstitialError()
-		{
-			JNIEnv *env = (JNIEnv*) SDL_AndroidGetJNIEnv();
-
-			jobject activity = (jobject) SDL_AndroidGetActivity();
-
-			jclass clazz(env->GetObjectClass(activity));
-			jmethodID method_id = env->GetMethodID(clazz, "coreInterstitialError", "()Z");
+		return result;
 
 			jboolean adHasFailedToLoad = env->CallBooleanMethod(activity, method_id);
 
@@ -378,22 +370,19 @@ namespace admob
 
 			jstring rewardType = (jstring) env->CallObjectMethod(activity, method_id);
 
-			const char *strPtr = env->GetStringUTFChars(rewardType, 0);
-			env->DeleteLocalRef(activity);
-			env->DeleteLocalRef(clazz);
-
-			return (std::string) strPtr;
+		std::string result = "";
+		if (rewardType != nullptr)
+		{
+			const char *nativeString = env->GetStringUTFChars(rewardType, 0);
+			result = std::string(nativeString);
+			env->ReleaseStringUTFChars(rewardType, nativeString); // ✅ Libera memória!
+			env->DeleteLocalRef(rewardType);
 		}
 
-		double Ads::coreGetRewardQuantity()
-		{
-			JNIEnv *env = (JNIEnv*) SDL_AndroidGetJNIEnv();
+		env->DeleteLocalRef(activity);
+		env->DeleteLocalRef(clazz);
 
-			jobject activity = (jobject) SDL_AndroidGetActivity();
-
-			jclass clazz(env->GetObjectClass(activity));
-			jmethodID method_id = env->GetMethodID(clazz, "coreGetRewardQuantity",  "()D");
-
+		return result;
 			jdouble rewardQty = (jdouble) env->CallDoubleMethod(activity, method_id);
 
 			env->DeleteLocalRef(activity);
