@@ -62,6 +62,11 @@
 #	include "libraries/admob/wrap_Ads.h"
 #endif
 
+#ifdef EXT_PLAYGAMES
+#	include "libraries/playgames/PlayGames.h"
+#	include "libraries/playgames/wrap_PlayGames.h"
+#endif
+
 // Libraries.
 #ifdef LOVE_ENABLE_LUASOCKET
 #	include "libraries/luasocket/luasocket.h"
@@ -526,6 +531,10 @@ int luaopen_love(lua_State *L)
 //extensions
 #ifdef EXT_ADMOB
 	love::luax_preload(L, admob::ads::luaopen_admob, "admob");
+#endif
+
+#ifdef EXT_PLAYGAMES
+	love::luax_preload(L, playgames::games::luaopen_playgames, "playgames");
 #endif
 
 #ifdef LOVE_ENABLE_LUASOCKET
