@@ -62,6 +62,22 @@ namespace playgames
 				void getPlayerScore(const char *leaderboardId);
 				bool hasScoreForLeaderboard(const char *leaderboardId);
 				long getScore(const char *leaderboardId);
+				
+				// Cloud Save methods
+				bool isCloudSaveEnabled();
+		void cloudSaveSnapshot(const char *snapshotName, const char *data, size_t dataSize, const char *description, long playedTime, long progressValue);
+				void cloudLoadSnapshot(const char *snapshotName);
+				void cloudDeleteSnapshot(const char *snapshotName);
+				void cloudShowSavedGamesUI(const char *title, bool allowAdd, bool allowDelete, int maxSnapshots);
+				bool cloudHasLoadedSnapshot(const char *snapshotName);
+				std::string cloudGetLoadedSnapshotData(const char *snapshotName, size_t *outSize);
+				bool cloudHasSaveResult(const char *snapshotName);
+				bool cloudGetSaveResult(const char *snapshotName);
+				bool cloudHasError(const char *snapshotName);
+				std::string cloudGetError(const char *snapshotName);
+				bool cloudIsSaveInProgress();
+				bool cloudIsLoadInProgress();
+				void cloudClearResults();
 
 		};
 	}

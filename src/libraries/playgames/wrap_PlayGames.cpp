@@ -123,6 +123,129 @@ namespace playgames
 			lua_pushnumber(L, (lua_Number)ret);
 			return 1;
 		}
+		
+		// ========== Cloud Save Wrappers ==========
+		
+		int w_isCloudSaveEnabled(lua_State *L)
+		{
+			bool ret = instance()->isCloudSaveEnabled();
+			love::luax_pushboolean(L, ret);
+			return 1;
+		}
+		
+		int w_cloudSaveSnapshot(lua_State *L)
+		{
+			const char *snapshotName = luaL_checkstring(L, 1);
+			size_t dataSize;
+			const char *data = luaL_checklstring(L, 2, &dataSize);
+			const char *description = luaL_optstring(L, 3, "");
+			lua_Number playedTime_number = luaL_optnumber(L, 4, 0);
+			long playedTime = (long)playedTime_number;
+			lua_Number progressValue_number = luaL_optnumber(L, 5, -1);
+			long progressValue = (long)progressValue_number;
+			
+			instance()->cloudSaveSnapshot(snapshotName, data, dataSize, description, playedTime, progressValue);
+			return 0;
+		}
+		
+		int w_cloudLoadSnapshot(lua_State *L)
+		{
+			const char *snapshotName = luaL_checkstring(L, 1);
+			instance()->cloudLoadSnapshot(snapshotName);
+			return 0;
+		}
+		
+		int w_cloudDeleteSnapshot(lua_State *L)
+		{
+			const char *snapshotName = luaL_checkstring(L, 1);
+			instance()->cloudDeleteSnapshot(snapshotName);
+			return 0;
+		}
+		
+		int w_cloudShowSavedGamesUI(lua_State *L)
+		{
+			const char *title = luaL_optstring(L, 1, "Saved Games");
+			bool allowAdd = love::luax_optboolean(L, 2, true);
+			bool allowDelete = love::luax_optboolean(L, 3, true);
+			int maxSnapshots = (int)luaL_optinteger(L, 4, 3);
+			
+			instance()->cloudShowSavedGamesUI(title, allowAdd, allowDelete, maxSnapshots);
+			return 0;
+		}
+		
+		int w_cloudHasLoadedSnapshot(lua_State *L)
+		{
+			const char *snapshotName = luaL_checkstring(L, 1);
+			bool ret = instance()->cloudHasLoadedSnapshot(snapshotName);
+			love::luax_pushboolean(L, ret);
+			return 1;
+		}
+		
+		int w_cloudGetLoadedSnapshotData(lua_State *L)
+		{
+			const char *snapshotName = luaL_checkstring(L, 1);
+			size_t outSize = 0;
+			std::string ret = instance()->cloudGetLoadedSnapshotData(snapshotName, &outSize);
+			
+			if (outSize > 0)
+				lua_pushlstring(L, ret.c_str(), outSize);
+			else
+				lua_pushnil(L);
+			
+			return 1;
+		}
+		
+		int w_cloudHasSaveResult(lua_State *L)
+		{
+			const char *snapshotName = luaL_checkstring(L, 1);
+			bool ret = instance()->cloudHasSaveResult(snapshotName);
+			love::luax_pushboolean(L, ret);
+			return 1;
+		}
+		
+		int w_cloudGetSaveResult(lua_State *L)
+		{
+			const char *snapshotName = luaL_checkstring(L, 1);
+			bool ret = instance()->cloudGetSaveResult(snapshotName);
+			love::luax_pushboolean(L, ret);
+			return 1;
+		}
+		
+		int w_cloudHasError(lua_State *L)
+		{
+			const char *snapshotName = luaL_checkstring(L, 1);
+			bool ret = instance()->cloudHasError(snapshotName);
+			love::luax_pushboolean(L, ret);
+			return 1;
+		}
+		
+		int w_cloudGetError(lua_State *L)
+		{
+			const char *snapshotName = luaL_checkstring(L, 1);
+			std::string ret = instance()->cloudGetError(snapshotName);
+			love::luax_pushstring(L, ret);
+			return 1;
+		}
+		
+		int w_cloudIsSaveInProgress(lua_State *L)
+		{
+			bool ret = instance()->cloudIsSaveInProgress();
+			love::luax_pushboolean(L, ret);
+			return 1;
+		}
+		
+		int w_cloudIsLoadInProgress(lua_State *L)
+		{
+			bool ret = instance()->cloudIsLoadInProgress();
+			love::luax_pushboolean(L, ret);
+			return 1;
+		}
+		
+		int w_cloudClearResults(lua_State *L)
+		{
+			instance()->cloudClearResults();
+			return 0;
+		}
 
 		// List of functions to wrap.
 		static const luaL_Reg functions[] =
@@ -139,6 +262,22 @@ namespace playgames
 			{ "getPlayerScore", w_getPlayerScore },
 			{ "hasScoreForLeaderboard", w_hasScoreForLeaderboard },
 			{ "getScore", w_getScore },
+			
+			// Cloud Save
+			{ "isCloudSaveEnabled", w_isCloudSaveEnabled },
+			{ "cloudSaveSnapshot", w_cloudSaveSnapshot },
+			{ "cloudLoadSnapshot", w_cloudLoadSnapshot },
+			{ "cloudDeleteSnapshot", w_cloudDeleteSnapshot },
+			{ "cloudShowSavedGamesUI", w_cloudShowSavedGamesUI },
+			{ "cloudHasLoadedSnapshot", w_cloudHasLoadedSnapshot },
+			{ "cloudGetLoadedSnapshotData", w_cloudGetLoadedSnapshotData },
+			{ "cloudHasSaveResult", w_cloudHasSaveResult },
+			{ "cloudGetSaveResult", w_cloudGetSaveResult },
+			{ "cloudHasError", w_cloudHasError },
+			{ "cloudGetError", w_cloudGetError },
+			{ "cloudIsSaveInProgress", w_cloudIsSaveInProgress },
+			{ "cloudIsLoadInProgress", w_cloudIsLoadInProgress },
+			{ "cloudClearResults", w_cloudClearResults },
 
 			{ 0, 0 }
 		};
