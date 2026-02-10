@@ -198,5 +198,65 @@ namespace playgames
 			
 			return result;
 		}
+
+		void PlayGames::getPlayerScore(const char *leaderboardId)
+		{
+			__android_log_print(ANDROID_LOG_VERBOSE, "PLAYGAMES", "getPlayerScore: %s", leaderboardId);
+			
+			std::string ID = (std::string) leaderboardId;
+
+			JNIEnv *env = (JNIEnv*) SDL_AndroidGetJNIEnv();
+			jobject activity = (jobject) SDL_AndroidGetActivity();
+			jclass clazz (env->GetObjectClass(activity));
+
+			jmethodID method_id = env->GetMethodID(clazz, "playGamesGetPlayerScore", "(Ljava/lang/String;)V");
+			jstring ID_jstring = (jstring) env->NewStringUTF(ID.c_str());
+
+			env->CallVoidMethod(activity, method_id, ID_jstring);
+
+			env->DeleteLocalRef(ID_jstring);
+			env->DeleteLocalRef(activity);
+			env->DeleteLocalRef(clazz);
+		}
+
+		bool PlayGames::hasScoreForLeaderboard(const char *leaderboardId)
+		{
+			std::string ID = (std::string) leaderboardId;
+
+			JNIEnv *env = (JNIEnv*) SDL_AndroidGetJNIEnv();
+			jobject activity = (jobject) SDL_AndroidGetActivity();
+			jclass clazz (env->GetObjectClass(activity));
+
+			jmethodID method_id = env->GetMethodID(clazz, "playGamesHasScoreForLeaderboard", "(Ljava/lang/String;)Z");
+			jstring ID_jstring = (jstring) env->NewStringUTF(ID.c_str());
+
+			jboolean result = env->CallBooleanMethod(activity, method_id, ID_jstring);
+
+			env->DeleteLocalRef(ID_jstring);
+			env->DeleteLocalRef(activity);
+			env->DeleteLocalRef(clazz);
+			
+			return (bool)result;
+		}
+
+		long PlayGames::getScore(const char *leaderboardId)
+		{
+			std::string ID = (std::string) leaderboardId;
+
+			JNIEnv *env = (JNIEnv*) SDL_AndroidGetJNIEnv();
+			jobject activity = (jobject) SDL_AndroidGetActivity();
+			jclass clazz (env->GetObjectClass(activity));
+
+			jmethodID method_id = env->GetMethodID(clazz, "playGamesGetScore", "(Ljava/lang/String;)J");
+			jstring ID_jstring = (jstring) env->NewStringUTF(ID.c_str());
+
+			jlong result = env->CallLongMethod(activity, method_id, ID_jstring);
+
+			env->DeleteLocalRef(ID_jstring);
+			env->DeleteLocalRef(activity);
+			env->DeleteLocalRef(clazz);
+			
+			return (long)result;
+		}
 	}
 }

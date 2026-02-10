@@ -57,6 +57,11 @@ namespace playgames
 				void showAllLeaderboards();
 				std::string getPlayerName();
 				std::string getPlayerId();
+				
+				// Score retrieval methods
+				void getPlayerScore(const char *leaderboardId);
+				bool hasScoreForLeaderboard(const char *leaderboardId);
+				long getScore(const char *leaderboardId);
 
 		};
 	}

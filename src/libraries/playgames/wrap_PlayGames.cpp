@@ -101,6 +101,29 @@ namespace playgames
 			return 1;
 		}
 
+		int w_getPlayerScore(lua_State *L)
+		{
+			const char *leaderboardId = luaL_checkstring(L, 1);
+			instance()->getPlayerScore(leaderboardId);
+			return 0;
+		}
+
+		int w_hasScoreForLeaderboard(lua_State *L)
+		{
+			const char *leaderboardId = luaL_checkstring(L, 1);
+			bool ret = instance()->hasScoreForLeaderboard(leaderboardId);
+			love::luax_pushboolean(L, ret);
+			return 1;
+		}
+
+		int w_getScore(lua_State *L)
+		{
+			const char *leaderboardId = luaL_checkstring(L, 1);
+			long ret = instance()->getScore(leaderboardId);
+			lua_pushnumber(L, (lua_Number)ret);
+			return 1;
+		}
+
 		// List of functions to wrap.
 		static const luaL_Reg functions[] =
 		{
@@ -113,6 +136,9 @@ namespace playgames
 			{ "showAllLeaderboards", w_showAllLeaderboards },
 			{ "getPlayerName", w_getPlayerName },
 			{ "getPlayerId", w_getPlayerId },
+			{ "getPlayerScore", w_getPlayerScore },
+			{ "hasScoreForLeaderboard", w_hasScoreForLeaderboard },
+			{ "getScore", w_getScore },
 
 			{ 0, 0 }
 		};
